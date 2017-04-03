@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+
+unsigned long long f(unsigned long long num)
+{
+	unsigned long long a1 = 1, a2 = 1;
+	unsigned long long a3;
+	if (num == 1 || num == 2)
+	{
+		return 1;
+	}
+	for (unsigned long long i = 0; i < num-2; i++)
+	{
+		a3 = a1 + a2;
+		a1 = a2;
+		a2 = a3;
+	}
+	return a3;
+
+}
+
+int main()
+{
+	unsigned long long n;
+	cin >> n;
+	cout << f(n)%10007;
+}

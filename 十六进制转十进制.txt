@@ -1,0 +1,29 @@
+#include<iostream>
+#include<iomanip>
+#include<cmath>
+
+using namespace std;
+
+int main()
+{
+	char h[9];
+	//cin >> h[8];
+	cin.getline(h,9);
+	long long m = 0;
+	int c = 0;
+	for (int i = 7; i >=0; i--) {
+		
+		if (h[i] >= 48 && h[i] <= 57) {
+			m +=( h[i]-48) * pow(16, c);
+			c++;
+			
+		}
+		if (h[i] > 64 && h[i] < 91) {
+			m += (h[i] - 55)*pow(16, c);
+			c++;
+		}
+	}
+	cout << m;
+
+
+}

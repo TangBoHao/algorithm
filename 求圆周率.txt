@@ -1,0 +1,13 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+double cal(double r) {
+	return r*r*3.1415926535897932384626433832795;
+}
+int main()
+{
+	double r;
+	cin >> r;
+	cout <<fixed<< setprecision(7) << cal(r);
+
+}

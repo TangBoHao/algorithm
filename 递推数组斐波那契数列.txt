@@ -1,0 +1,29 @@
+#include<iostream>
+using namespace std;
+int a[1000000];
+int f(int n)
+{
+	if (n == 1 || n == 2)
+	{
+		return 1;
+	}
+	
+	a[0] = 0;
+	a[1] = 1;
+	a[2] = 1;
+	for (int i = 3; i < 1000000; i++)
+	{
+		a[i] = (a[i - 1] + a[i - 2])%10007;
+		if (i == n)
+		{
+			return a[i];
+		}
+	}
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	cout << f(n);
+}

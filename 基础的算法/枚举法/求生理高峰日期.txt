@@ -1,0 +1,30 @@
+#include<iostream>
+using namespace std;
+#define N 21252
+int main()
+{ 
+	//人体的体力智商情商高峰分别每23，28，33天出现一次，a，b，c分别是三次高峰出现的日子，求下一次高峰出现的日子
+	//int a, b, c;
+	//cin >> a >> b >> c;
+	//for (int i = 0; i < 21252; i++)          //最简单的枚举法
+	//{
+	//	if ((i - a) % 23 == 0 && (i - b) % 28 == 0 && (i - c) % 33 == 0)
+	//	{
+	//		cout << i;
+	//	}
+	//}
+
+	int p, e, i, d, caseNo = 0;
+	while (cin>>p>>e>>i>>d&&p!=-1)
+	{
+		++caseNo;
+		int k;
+		for (k = d + 1; (k - p) % 23; ++k);
+		for (; (k - e) % 28; k += 23);
+		for (; (k - i) % 33; k += 23 * 28);
+		cout << "case" << caseNo << "下一次高峰出现在" << k - d << "天后";
+
+	}
+	return 0;
+
+}

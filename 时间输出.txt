@@ -1,0 +1,15 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+{
+	int t;
+	cin >> t;
+	int h = t / 3600;
+	int m = (t - h * 3600) / 60;
+	int s = t % 60;
+	cout  << setw(2) << setfill('0') << h << ':';
+	cout << setw(2) << setfill('0') << m << ':';
+	cout << setw(2) << setfill('0') << s << ':';
+}

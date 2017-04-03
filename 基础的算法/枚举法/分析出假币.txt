@@ -1,0 +1,85 @@
+#include<iostream>
+using namespace std;
+//若干硬币，有一枚假币，称量三次，找出假币
+
+ char Left[3][7];  //天平左边硬币
+ char Right[3][7];     //天平右边硬币
+ char Result[3][7];
+
+
+bool IsFake(char c, bool light)  //light表示假币为轻，否则表示假币为重
+{
+	for (int i = 0; i < 3; i++)
+	{
+		char *pLeft, *pRight;
+		if (light)
+		{
+			*pLeft = Left[0][0];
+			pRight = Right[i];
+		}
+		else {
+			pLeft = Left[i];
+			pRight = Right[i];
+		}
+		switch (Result[i][0])
+		{
+		case 'u':
+			if (strchr(pRight, c) == NULL)
+			{
+				return false;
+				
+			}
+			break;
+		case 'e':
+			if (strchr(pLeft, c) || strchr(pRight, c))
+			{
+				return false;
+				
+			}
+			break;
+		case 'd':
+			if (strchr(pLeft, c) == NULL)
+			{
+				return false;
+			}
+			break;
+		}
+	}
+	return true;
+	
+
+
+
+
+}
+int main()
+{
+	int t;
+	cin >> t;
+	
+	while (t--)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			cin >> Left[i] >> Right[i] >> Result[i];
+			for (char c = 'A'; c <= 'L'; c++)
+			{
+				if (IsFake(c, true))
+				{
+					cout << c << "是假币并且比较轻" << endl;
+				}
+				else {
+					if (IsFake(c, false))
+					{
+						cout << c << "是假币并且比较重" << endl;
+					}
+					
+				}
+			}
+		}
+	}
+
+
+
+
+}

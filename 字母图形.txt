@@ -1,0 +1,26 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+{
+	char z[26] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+	int m, n;
+	int i,c;
+	int temp;
+	cin >> m;
+	cin >> n;
+	for (i = 0; i < m; i++) {
+		for (c = 0; c < n; c++) {
+			if ((i - c)>=0) {
+				cout << z[i - c];
+			}
+			else {
+				cout << z[c-i];
+			}
+			
+		}
+		cout << endl;
+	}
+
+}

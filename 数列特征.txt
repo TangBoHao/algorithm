@@ -1,0 +1,32 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+{
+	int n;
+	int i;
+	cin >> n;
+	int q[10000];
+	for (i = 0; i < n; i++) {
+		cin >> q[i];
+	};
+	int min, mun;
+	int sum = 0;
+	min = q[0];
+	mun = q[0];
+	for (i = 0; i < n; i++) {
+		if (q[i] < min) {
+			min = q[i];
+		}
+		if (q[i] > mun) {
+			mun = q[i];
+		}
+		sum = sum + q[i];
+	};
+	cout << mun << endl;
+	cout << min << endl;
+	cout << sum << endl;
+
+
+}

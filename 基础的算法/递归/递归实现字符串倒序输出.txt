@@ -1,0 +1,16 @@
+#include<iostream>
+using namespace std;
+void reprint()     //µ¹ÐðÊä³ö×Ö·û´®£¬ÒÔ#Îª½áÊøÓï
+{
+	char a;
+	cin >> a;
+	if (a != '#')
+		reprint();
+		cout << a;
+		
+}
+
+int main()
+{
+	reprint();
+}

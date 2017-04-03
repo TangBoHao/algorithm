@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	cin >> n;
+	int count = 0;
+	for (int a = 2; a <= n; a++)
+	{
+		for (int b = 2; b < a; b++)
+		{
+			for (int c = b; c < a; c++)
+			{
+				for (int d = c; d < a; d++)
+				{
+					if (a*a*a == b*b*b + c*c*c + d*d*d)
+					{
+						printf("Cube=%d,Tripe=(%d,%d,%d)", a, b, c, d);
+						
+					}
+					count++;
+				}
+			}
+		}
+	}
+	cout << "times:" << count;
+}

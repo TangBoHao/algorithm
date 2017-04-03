@@ -1,0 +1,18 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+{
+	int m;
+	for (int i = 1; i < 10; i++) {
+		for (int a = 1; a < 10; a++) {
+		
+				m = i * 1000 + a * 100 + a * 10 + i;
+				cout << m<<endl;
+			
+			
+		}
+	}
+
+}
