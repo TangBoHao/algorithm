@@ -1,0 +1,140 @@
+#include<iostream>  
+#include<stdio.h>  
+#include<memory.h>  
+#include<cstring>  
+using namespace std;  
+  
+void getMaxWidth(char *str,int *c_width)//获得表格的每列的宽度，就是找字符串的长度 ，更长的代替次长的   
+{  
+    int i,c,count;  
+    count=0;  
+    c=0;  
+    for(i=0;i<strlen(str);i++)  
+    {  
+        if(str[i]!=',')  
+        {  
+            for(;str[i]!=','&&i<strlen(str);i++)  
+            count++;  
+        }  
+        if(c_width[c]<count)  
+        c_width[c]=count;  
+        c++;  
+        count=0;  
+    }  
+      
+}  
+  
+  
+  
+int main()  
+{  
+    char data[40][500];  
+    int r,c,i,j,k,l,c_width[50],logic_r;  
+    memset(c_width,-1,sizeof(c_width));  
+    cin>>r;  
+    getchar();  
+    for(i=0;i<r;i++)  
+    {  
+        cin.getline(data[i],500);  
+    }  
+    for(i=0;i<r;i++)  
+    {  
+        getMaxWidth(data[i],c_width);  
+    }  
+    for(i=0;i<50;i++)  
+    {  
+        if(c_width[i]==-1)  
+        {  
+            c=i;  
+            break;  
+        }  
+      
+    }  
+    int num=0;  
+    for(i=0;;i++)//对存储列长的数组进行处理，将长度映射成位置，如长度为1,2,3，那么位置就是1,3,6   
+    {  
+        if(c_width[i]!=-1)  
+        {  
+            num+=c_width[i];  
+            if(i>0)  
+            c_width[i]+=c_width[i-1]+1;  
+        }  
+        else  
+        {  
+            num+=i+1;  
+            break;  
+        }  
+    }  
+    logic_r=2*r+1;//算出到底要打印几行   
+    for(i=1;i<=logic_r;i++)//开始打印   
+    {  
+        if(i%2==1)//奇数行的时候，只需要打印"+"和"-"   
+        {  
+            for(j=0;j<num;j++)  
+            {  
+                bool flag=1;  
+                if(j==0)  
+                {  
+                    cout<<'+';  
+                    flag=0;  
+                }  
+                for(k=0;k<c;k++)  
+                if(j==c_width[k]+1)  
+                {  
+                    cout<<'+';  
+                    flag=0;  
+                }  
+                if(flag)  
+                cout<<'-';  
+                  
+            }  
+            cout<<endl;  
+        }  
+        l=0;  
+        int p=0;  
+        if(i%2==0)//偶数行的时候，打印"|"和数据以及空格   
+        {  
+            for(j=0;j<num;j++)  
+            {  
+                bool flag=1;  
+                if(j==0)  
+                {  
+                    cout<<'|';  
+                    flag=0;  
+                }  
+                for(k=0;k<c;k++)  
+                if(j==c_width[k]+1)  
+                {  
+                    cout<<'|';  
+                    flag=0;  
+                }  
+                if(flag)  
+                {  
+                    if(l>strlen(data[i/2-1]))  
+                    cout<<' ';  
+                    for(;l<=strlen(data[i/2-1]);l++)  
+                    {  
+                        if(data[i/2-1][l]!=','&&l<strlen(data[i/2-1]))  
+                        {  
+                            j++;  
+                            cout<<data[i/2-1][l];  
+                        }  
+                        if(data[i/2-1][l]==','||l==strlen(data[i/2-1]))  
+                        {  
+                            l++;  
+                            for(;j<=c_width[p];j++)  
+                            cout<<' ';  
+                            j--;  
+                            p++;  
+                            break;  
+                        }  
+                    }  
+                      
+                }  
+            }  
+            cout<<endl;  
+        }  
+          
+    }  
+    return 0;  
+}  
