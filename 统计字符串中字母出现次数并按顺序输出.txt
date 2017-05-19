@@ -1,0 +1,49 @@
+#include<iostream>
+
+int sort(int *a,int N)
+{
+	int i, t;
+	int max;
+	max = a[0];//把数组的第一个数赋值给max，此时对应的下标为0 
+	t = 0;
+	for (i = 1; i<N; i++)//从数组的第二个数开始判断，max是否是最大值 
+		if (max<a[i]) {//不是最大值，就把该值赋值给max，并修改下标 
+			max = a[i];
+			t = i;
+		}
+	if (a[t] == 0)
+	{
+		return 0;
+	}
+	printf("%c  %d\n", t, max);//数组的下标是从0开始 
+	a[t] = 0;
+	return 0;
+}
+
+int main()
+{
+	int a[100] = { 0 };
+	int i;
+	int j;
+	char c;
+	while ((c = getchar()) != '?')   /*获取字符并统计每个字母出现次数*/
+	{
+		for (i = 65; i <= 90; i++)
+		{
+			if (c == i || c == i + 32) a[i]++;
+		}
+			
+	}
+	
+	//for (j = 65; j <= 90; j++)  /*输出统计信息*/
+	//{
+	//	if (a[j]>0) printf("%c   %d\n", j, a[j]);
+	//}
+	for (int q = 0; q < 100; q++)
+	{
+		sort(a, 100);
+	}
+	
+		
+	
+}

@@ -1,0 +1,97 @@
+#include<iostream>
+using namespace std;
+class queque {
+public:
+	queque(int n)//创建队列
+	{
+		capacity = n;
+		head = 0;
+		tail = 0;
+		length = 0;
+		p = new int[capacity];
+	}
+	
+	virtual ~queque()		//析构队列，内存回收
+	{
+		delete[]p;
+		p = NULL;
+
+	}
+	void clear()			//清空队列
+	{
+		head = 0;
+		tail = 0;
+		length = 0;
+	}
+	bool quequeempty() const		//判断队列是否为空
+	{
+		if (length == 0)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool quequefull() const     //判断队列是否为满
+	{
+		if (length == capacity)
+		{
+			return true;
+		}
+		return false;
+	}
+	int quequelength()const    //获取队列长度,即当前队列元素个数
+	{
+		return length;
+	}
+	void in(int ele)				//新元素入列
+	{
+		if (quequefull())
+		{
+			return;			
+		}
+		else
+		{
+			p[tail] = ele;
+			tail++;
+			tail = tail%capacity;
+			length++;
+		}
+
+	}
+	void out(int &ele)				//新元素出列
+	{
+		if (quequeempty())
+		{
+			return;
+		}
+		else
+		{
+			ele = p[head];
+			head++;
+			head = head%capacity;
+			length--;
+		}
+	}
+	void traverse()      //遍历队列
+	{
+		for (int i = head; i < head + length; i++)
+		{
+			cout << p[i%capacity] << endl;
+		}
+	}
+
+
+private:
+	int *p;   //队列数组的指针
+	int length;	//队列长度
+	int capacity;   //队列容量
+	int head;	//队头
+	int tail;	//队尾
+};
+
+int main()
+{
+	return 0;
+}

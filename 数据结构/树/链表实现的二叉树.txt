@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+
+class node {
+public:
+	
+	char data;
+	node *pLchild=NULL;
+	node *pRchild=NULL;
+
+};
+
+class tree {
+public:
+
+	tree()  //初始化树，申请根节点的内存空间
+	{
+		node *p;
+		p = new node();
+		root = p;
+	}
+	void create(node *p)
+	{
+		
+		cout << "请输入该结点的值" << endl;
+		char c;
+		cin >> c;
+		if (c == '#')
+		{
+			p = NULL;
+			return;
+		}
+		else {
+			p->data =c;
+		}
+		p->pLchild = new node();
+		create(p->pLchild);
+		p->pRchild = new node();
+		create(p->pRchild);   //默认按前序遍历方式初始化数据
+	}
+
+	void traversal(node *p)
+	{
+		if (!p->data)
+		{
+			return;
+		}
+		cout << "该结点的数据域为:" << p->data;
+		cout << endl;
+		traversal(p->pLchild);      //前序遍历方式
+		traversal(p->pRchild);
+	}
+
+	node *root;
+};
+
+int main()
+{ 
+	tree *p;
+	p = new tree();
+	p->create(p->root);
+	p->traversal(p->root);
+
+}

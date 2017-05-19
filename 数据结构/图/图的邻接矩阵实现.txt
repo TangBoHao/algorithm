@@ -1,0 +1,221 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+/*       A
+       /   \
+	  B		D
+     / \   / \
+    C  F  G---H
+	\ /
+	 E
+
+*/
+/*  A B C D E F G H    邻接矩阵表示法
+A     1   1
+B   1   1     1
+C     1     1 1
+D   1           1 1
+E        1
+F     1 1
+G         1       1      
+H         1     1
+
+*/
+
+class Node {
+public:
+	Node() {
+		visited = false;
+	};
+	Node(char a) {
+		data = a;
+		visited = false;
+	}
+
+	char data;
+	bool visited;
+};
+
+class Map {
+public:
+	Map(int n) {
+		capacity = n;
+		nodeCount = 0;
+		pNodeArray = new Node[capacity];
+		pMatrix = new int [capacity*capacity];
+		//或者 memset(pMatrix, 0, capacity*capacity*sizeof(int));  //menset函数初始化内存，参数的含义分别为区域指针，设定的数值，设定的大小
+		for (int i = 0; i < capacity*capacity; i++) {
+			pMatrix[i] = 0;
+		}
+	}
+	~Map() {
+		delete[]pNodeArray;
+		delete[]pMatrix;
+	}
+	bool addNode(Node *pNode)  //向图中添加结点
+	{
+		if (pNode == NULL) {
+			return false;
+		}
+		pNodeArray[nodeCount].data = pNode->data;
+		nodeCount++;
+	}
+	void resetNode()   //重置结点
+	{
+		for (int i = 0; i < nodeCount; i++) {
+			pNodeArray[i].visited = false;
+		}
+	}
+	bool setValueToMatrixForDirectedGraph(int row, int col, int val = 1)  //为有向图设置邻接矩阵
+	{
+		if (row >= 0 && row <= capacity&&col >= 0 && col <= capacity) {
+			pMatrix[row*capacity + col] = val;
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	bool setValueToMatrixForUndirectedGraph(int row, int col, int val = 1)  //为无向图设置邻接矩阵
+	{
+		if (row >= 0 && row <= capacity&&col >= 0 && col <= capacity) {
+			pMatrix[row*capacity + col] = val;
+			pMatrix[col*capacity + row] = val;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	void printMatrix()          //打印邻接矩阵
+	{
+		for (int i = 0; i < capacity; i++) {
+			for (int k = 0; k < capacity; k++) {
+				cout<<pMatrix[i*capacity + k]<<" ";
+			}
+			cout << endl;
+		}
+	}
+	void depthFirstTraversal(int nodeIndex)     //深度优先遍历
+	{
+		int value = 0;
+		cout << pNodeArray[nodeIndex].data << " ";
+		pNodeArray[nodeIndex].visited = true;
+
+		for (int i = 0; i < capacity; i++) {
+			getValueFromMatrix(nodeIndex, i, value);
+			if (value == 1) {
+				if (pNodeArray[i].visited) {
+					continue;
+				}
+				else {
+					//cout << pNodeArray[i].data << " ";
+					depthFirstTraversal(i);
+				}
+			}
+			else {
+				continue;
+			}
+		}
+	}
+	void breadthFirstTraverse(int nodeIndex)   //广度优先遍历
+	{
+		cout << pNodeArray[nodeIndex].data << " ";
+		pNodeArray[nodeIndex].visited = true;
+
+
+		vector<int>curVec;
+		curVec.push_back(nodeIndex);
+		breadthFirstTraverseImpl(curVec);
+	}
+	void breadthFirstTraverseImpl(vector<int>preVec)
+	{
+		int value = 0;
+		vector<int>curVec;
+
+		for (int j = 0; j < (int)preVec.size(); j++) {
+			for (int i = 0; i < capacity; i++) {
+				getValueFromMatrix(preVec[j], i, value);
+				if (value != 0) {
+					if (pNodeArray[i].visited) {
+						continue;
+					}
+					else {
+						cout << pNodeArray[i].data << " ";
+						pNodeArray[i].visited = true;
+
+						curVec.push_back(i);
+					}
+				}
+			}
+		}
+		if (curVec.size() == 0) {
+			return;
+		}
+		else {
+			breadthFirstTraverseImpl(curVec);
+		}
+	}
+
+	bool getValueFromMatrix(int row, int col, int &val)  //从矩阵中获取权值
+	{
+		if (row >= 0 && row <= capacity&&col >= 0 && col <= capacity) {
+			val = pMatrix[row*capacity + col];
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+private:
+	int capacity;   //图中最多可以容纳的结点数
+	int nodeCount;  //已经添加的结点数
+	Node *pNodeArray;  //用来存放结点数组
+	int *pMatrix;     //用来存放邻接矩阵
+
+
+
+};
+
+int main() {
+	Map *pMap = new Map(8);
+	Node *pNodeA = new Node('A');
+	Node *pNodeB = new Node('B');
+	Node *pNodeC = new Node('C');
+	Node *pNodeD = new Node('D');
+	Node *pNodeE = new Node('E');
+	Node *pNodeF = new Node('F');
+	Node *pNodeG = new Node('G');
+	Node *pNodeH = new Node('H');
+
+	pMap->addNode(pNodeA);
+	pMap->addNode(pNodeB);
+	pMap->addNode(pNodeC);
+	pMap->addNode(pNodeD);
+	pMap->addNode(pNodeE);
+	pMap->addNode(pNodeF);
+	pMap->addNode(pNodeG);
+	pMap->addNode(pNodeH);
+	
+	pMap->setValueToMatrixForUndirectedGraph(0,1);
+	pMap->setValueToMatrixForUndirectedGraph(0,3);
+	pMap->setValueToMatrixForUndirectedGraph(1,2);
+	pMap->setValueToMatrixForUndirectedGraph(1,5);
+	pMap->setValueToMatrixForUndirectedGraph(3,6);
+	pMap->setValueToMatrixForUndirectedGraph(3,7);
+	pMap->setValueToMatrixForUndirectedGraph(6,7);
+	pMap->setValueToMatrixForUndirectedGraph(2,4);
+	pMap->setValueToMatrixForUndirectedGraph(4,5);
+
+	pMap->printMatrix();
+	pMap->depthFirstTraversal(0);
+	pMap->resetNode();
+	cout << endl;
+	pMap->breadthFirstTraverse(0);
+	system("pause");
+
+	return 0;
+}

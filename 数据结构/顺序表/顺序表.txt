@@ -1,0 +1,205 @@
+#include<iostream>
+using namespace std;
+class Node {
+public:
+	int data;
+	Node *next;
+	void printNode()
+	{
+		cout << "当前结点的数据域的值为：" << data << endl;
+	}
+
+};
+class List {
+public:
+	List(){
+		pList = new Node;
+		pList->data = 0;
+		pList->next = NULL;
+		length = 0;
+		
+	}
+	void ClearList(){
+		Node *currentNode = pList->next;
+		while (currentNode != NULL)
+		{
+			Node *temp = currentNode->next;
+			delete currentNode;
+			currentNode = temp;
+		}
+		pList->next = NULL;
+	}
+	bool ListEmpty(){
+		if (length == 0)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	int ListLength(){
+		return length;
+	}
+	bool GetElem(int i,Node *pNode){
+		if (i < 0 || i >= length) {
+			return false;
+		}
+		Node *currentNode = pList;
+		Node *currentNodeBefore = NULL;
+		for (int k = 0; k <= i; k++) {
+			currentNodeBefore = currentNode;
+			currentNode = currentNode->next;
+
+		}
+		pNode->data = currentNode->data;
+		return true;
+	}
+	int LoacteElem(Node *pNode){
+		Node *currentNode = pList;
+		int count = 0;
+		while (currentNode->next != NULL) {
+			currentNode = currentNode->next;
+			if (currentNode->data == pNode->data) {
+				return count;
+			}
+			count++;
+		}
+		return -1;
+	}
+	bool PriorElem(Node *pCurrentNode,Node *priorNode){
+		Node *currentNode = pList;
+		Node *tempNode = NULL;
+		while (currentNode->next != NULL) {
+			tempNode = currentNode;
+			currentNode = currentNode->next;
+			if (currentNode->data == pCurrentNode->data) {
+				if (tempNode = pList) {
+					return false;
+				}
+				priorNode->data = tempNode->data;
+				return true;
+			}
+			
+		}
+		return false;;
+	}
+	bool NextElem(Node *pCurrentNode,Node *nextNode){
+		Node *currentNode = pList;
+		while (currentNode->next != NULL) {
+			
+			currentNode = currentNode->next;
+			if (currentNode->data == pCurrentNode->data) {
+				if (currentNode->next==NULL) {
+					return false;
+				}
+				nextNode->data = currentNode->next->data;
+				return true;
+			}
+
+		}
+		return false;
+	}
+	void ListTraverse(){
+		Node *currentNode = pList;
+		while (currentNode->next != NULL) {
+			currentNode = currentNode->next;
+			currentNode->printNode();
+		}
+	}
+	bool ListInsert(int i,Node *pNode){
+		if (i<0 || i>length)
+		{
+			return false;
+		}
+		Node *currentNode = pList;
+		for (int k = 0; k < i; k++)
+		{
+			currentNode = currentNode->next;
+		}
+		Node *newNode = new Node;
+		if (newNode == NULL)
+		{
+			return false;
+		}
+		newNode->data = pNode->data;
+		newNode->next = currentNode->next;
+		currentNode->next = newNode;
+		length++;
+		return true;
+		
+	}
+	bool ListDelete(int i,Node *pNode){
+		if (i<0 || i>length) {
+			return false;
+		}
+		Node *currentNode = pList;
+		Node *currentNodeBefore = NULL;
+		for (int k = 0; k <= i; k++)
+		{
+			currentNodeBefore = currentNode;
+			currentNode = currentNode->next;
+		}
+		currentNodeBefore->next = currentNode->next;
+		pNode->data = currentNode->data;
+		delete currentNode;
+		currentNode = NULL;
+		length--;
+		return true;
+
+	}
+	bool ListInsertHead(Node *pNode){
+		Node *temp = pList->next;
+		Node *newNode = new Node;
+		if (newNode == NULL) {
+			return false;
+		}
+		newNode->data = pNode->data;
+		pList->next = newNode;
+		newNode->next = temp;
+		length++;
+		return true;
+	}
+	bool ListInsertTail(Node *pNode){
+		Node *currentNode = pList;
+		while (currentNode->next != NULL)
+		{
+			currentNode = currentNode->next;
+		}
+		Node *newNode = new Node;
+		if (newNode != NULL)
+		{
+			newNode->data = pNode->data;
+			newNode->next = NULL;
+			currentNode->next=newNode;
+			length++;
+			return true;
+		}
+	}
+private:
+	Node *pList;
+	int length;
+
+};
+
+int main()
+{
+	Node node1;
+	node1.data = 1;
+	Node node2;
+	node2.data = 2;
+	Node node3;
+	node3.data = 3;
+	Node node4;
+	node4.data = 4;
+	List *pList = new List();
+	pList->ListInsertHead(&node1);
+	pList->ListInsertHead(&node2);
+	pList->ListInsertHead(&node3);
+	pList->ListInsertHead(&node4);
+	//pList->ListInsert(2, &node4);
+	pList->ListInsertTail(&node3);
+	pList->ListTraverse();
+
+	
+}

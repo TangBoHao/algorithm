@@ -1,0 +1,164 @@
+#include<iostream>
+#include<string>
+#include<fstream>
+using namespace std;
+
+class node {           
+public:
+	string name;
+	string phone;
+	node *next;
+	
+};
+
+class list {
+public:
+	int length;        //链表长度
+	node *head;     //头结点地址
+
+	void init()    //初始化链表
+	{
+		node *p = new node();
+		head = p;
+		head->name = "first";
+		head->phone = "first";
+		head->next = NULL;
+		length = 1;
+	}
+
+	void insert(string name,string phone)         //将联系人插入链表末尾
+	{
+		node *p = new node();             //p为新结点的地址
+		if (length == 1)
+		{
+			head->next = p;
+			p->name = name;
+			p->phone = phone;
+			length++;
+			cout << "联系人插入成功" << endl;
+			return;
+		}
+		node *current = head;
+		for (int i = 0; i < length-1; i++)
+		{
+			current = current->next;
+		}
+		current->next = p;
+		p->name = name;
+		p->phone = phone;
+		length++;
+		cout << "联系人插入成功" << endl;
+		return;
+	}
+
+	void search(string name)        //根据姓名查找联系人，输出电话号码
+	{
+		node *p = head;
+		for (int i = 0; i < length - 1; i++)
+		{
+			p = p -> next;
+			if (p->name == name)
+			{
+				cout << "该联系人的电话号码是" << p->phone << endl;
+				return;
+			}
+		}
+	}
+
+	void deleteperson(string name)      //通过姓名删除联系人
+	{
+		node *pre;
+		node *p = head;
+		for (int i = 0; i < length - 1; i++)
+		{
+			p = p->next;
+			if (p->name == name)
+			{
+				pre->next = p->next;
+				length--;
+				cout << "联系人删除成功" << endl;
+				//delete p;
+				return;
+			}
+			pre = p;
+		}
+	}
+
+	void show()
+	{
+		node *p = head;
+		for (int i = 0; i < length - 1; i++)
+		{
+			p = p->next;
+			cout << "姓名：" << p -> name << "手机：" << p->phone << endl;
+		}
+	}
+
+	void writetxt()
+	{
+		ofstream fout("phonebook.txt");
+		node *p = head;
+		for (int i = 0; i < length - 1; i++)
+		{
+			p = p->next;
+			fout << "姓名：" << p->name <<"  "<< "手机：" << p->phone << endl;
+		}
+		cout << "phonebook.txt文件已更新" << endl;
+		
+	}
+
+
+
+};
+
+
+int main()
+{
+	list phonebook;
+	phonebook.init();
+
+
+	string name;
+	string phone;
+	int c;
+
+start:cout << "插入联系人请按1" << endl;
+	cout << "查找联系人请按2" << endl;
+	cout << "查看所有联系人3" << endl;
+	cout << "删除联系人请按4" << endl;
+	
+	 cin >> c;
+	 if (c < 1 || c>10)
+	 {
+		 cout << "选项输入错误，请重新输入" << endl;
+		 goto start;
+	 }
+	switch (c)
+	{
+	case 1:
+		cout << "请输入姓名和电话号码，用空格隔开" << endl;
+		
+		cin >> name >> phone;
+		phonebook.insert(name, phone);
+		phonebook.writetxt();
+		break;
+	case 2:
+		cout << "请输入要查找的联系人的姓名" << endl;
+		cin >> name;
+		phonebook.search(name);
+		break;
+	case 3:
+		phonebook.show();
+		break;
+	case 4:
+		cout << "请输入要删除的联系人的姓名" << endl;
+		cin >> name;
+		phonebook.deleteperson(name);
+		phonebook.writetxt();
+		break;
+
+	default:
+		break;
+	}
+	goto start;
+}

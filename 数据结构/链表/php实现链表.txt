@@ -1,0 +1,272 @@
+<?php
+/********************************************************
+  *    desc: 双链表
+  *  author: masin
+  * version: $1.0
+  *    date: 2008-12-29
+  ******************************************************/
+ 
+ 
+/**
+  * 链表元素结构部分定义
+  **/ 
+class List_Element
+{
+  public $pre = NULL;
+  public $next = NULL;
+  public $key = NULL;
+  public $data = NULL;
+  
+  function __Construct($key, $data)
+  {
+      $this->key = $key;
+      $this-&gt;data = $data;
+  }    
+}
+
+/**
+  * 链表结构的具体实现部分
+  **/
+class FList
+{
+    private $head;         //头指针
+    private $tail;          //尾指针
+  private $curelement;   //当前指针
+  private $flen;         //链表长度
+  private $maxelement;
+    
+    function __Construct($maxrow)
+    {
+        $this-&gt;head = NULL;
+        $this-&gt;tail = NULL;
+        $this-&gt;curelement = NULL;
+      $this-&gt;links = array();    
+      $this-&gt;maxelement = $maxrow;
+    }
+    
+    /**
+      * @ desc: 在链表未端添加链表元素
+      * @param: int $key                   //指定位置的链表元素key
+      * @param: string $data               //要插入的链表元素数据
+      **/
+    function append($key, $data)
+    {
+        $newelement = $this-&gt;_getElement($key, $data);
+        
+        if($this-&gt;_isEmpty())
+        {
+            $this-&gt;head = $newelement;
+            $this-&gt;tail= $newelement;
+        }
+        else
+        {
+            $newelement-&gt;pre = $this-&gt;curelement;
+            $newelement-&gt;next = $this-&gt;curelement-&gt;next;
+            $this-&gt;curelement-&gt;next = $newelement;
+            $tmp-&gt;next-&gt;pre = $newelement;
+            
+            $this-&gt;tail = $newelement;
+        }
+        
+        $this-&gt;flen += 1;
+        $this-&gt;curelement = $newelement;
+    }
+    
+    /**
+      * @ desc: 在指定的位置前插入链表元素
+      * @param: int $key                   //指定位置的链表元素key
+      * @param: List_Element $newelement   //要插入的链表元素
+      **/
+    function insertEleBefore($key, $newelement)
+    {
+        //$newelement = $this-&gt;_getElement($newkey, $newdata);
+        $tmp = $this-&gt;find($key);
+        if($tmp === NULL)
+        {
+            $this-&gt;head = $newelement;
+            $this-&gt;tail = $newelement;
+        }
+        else if($tmp === $this-&gt;head)
+        {
+            $this-&gt;head = $newelement;
+            $newelement-&gt;pre = $tmp-&gt;pre;
+            $newelement-&gt;next = $tmp;
+            $tmp-&gt;pre-&gt;next = $newelement;
+            $tmp-&gt;pre = $newelement;
+        }
+        else
+        {
+            $newelement-&gt;pre = $tmp-&gt;pre;
+            $newelement-&gt;next = $tmp;
+            $tmp-&gt;pre-&gt;next = $newelement;
+            $tmp-&gt;pre = $newelement;
+        }
+        
+        $this-&gt;flen += 1;
+        $this-&gt;curelement = $newelement;
+        
+    }
+    
+    /**
+      * @ desc: 删除链表中指定的元素
+      * @param: List_Element $element       //要删除的链表元素
+      */
+    function delElement($element)
+    {
+        if($this-&gt;head === NULL)
+        {
+            printf(" it is empty linkedlist");
+            exit;
+        }
+        
+        if($element === NULL)
+        {
+            printf("no matched element in the linkedlist");
+            exit;
+        }
+        
+        $this-&gt;curelement = $element-&gt;next;
+        $element-&gt;pre-&gt;next = $this-&gt;curelement;
+        $this-&gt;curelement-&gt;pre = $element-&gt;pre;    
+        unset($element);
+    }
+    
+    /**
+      * @desc: 删除所有链表元素
+      **/
+    function delAll()
+    {
+        $this-&gt;curelement = $this-&gt;head;
+        
+        $tmp = NULL;
+        while($this-&gt;curelement-&gt;next != NULL)
+        {
+         $tmp = $this-&gt;curelement;
+         $this-&gt;curelement = $this-&gt;curelement-&gt;next;
+         unset($tmp);    
+        }
+    }
+    
+    /**
+      * @ desc: 移动链表中的元素
+      * @param: int $skey          //要移动的链表元素key
+      * @param: int $dkey          //目标位置链表元素key
+      */
+    function moveElement($skey, $dkey)
+    {
+        $tmp = $this-&gt;find($skey);
+      $tmp-&gt;pre-&gt;next = $tmp-&gt;next;
+      $tmp-&gt;next-&gt;pre = $tmp-&gt;pre;
+      
+        $this-&gt;insertEleBefore($dkey, $tmp);    
+    }
+    
+    /**
+      * @ desc: 输出链表的内容
+      * @param: int $pos          //链表开始位置
+      * @param: int $num          //输出链表元数个数
+      *
+      * @return array $tmplinks  //将链表元数以数组形式输出
+      */
+    function display($pos, $num)
+    {
+        $tmp = NULL;
+        
+        if($this-&gt;_isEmpty())
+        {
+            printf("it is empty linkedlist");
+            exit;
+        }
+    
+      $this-&gt;move($pos);
+      $tmp = $this-&gt;curelement;
+      
+      $tmplinks = array();
+      $getnum = 0;
+      
+      if(($pos + $num) &gt; $this-&gt;flen)
+      {
+          $num = $this-&gt;flen - $pos;
+      }
+      
+      while($getnum < $num)
+      {
+          $tmplinks[] = $tmp;
+          $tmp = $tmp->next;
+          $getnum++;
+      }
+          
+      return $tmplinks;
+    }
+    
+    /**
+      * @ desc: 移动链表指针到指定的位置
+      * @param: int $pos     //指定的链表位置
+      */
+    function move($pos)
+    {
+        if($pos &gt; $this-&gt;flen)
+        {
+            $this-&gt;curelement = $this-&gt;tail;
+            return true;
+        }
+        
+        $tmp = $this-&gt;head;
+        
+        $curpos = 0;
+        while($tmp-&gt;next != null && $curpos < $pos)
+        {
+            $tmp = $tmp->next;
+            $curpos++;
+        }
+        
+        $this-&gt;curelement = $tmp;
+        return true;
+    }
+    
+    
+    /**
+      * @ desc: 按元素关键字查找链表元素所在的位置
+      * @param: int $key     //链表元素关键字
+      */
+    function find($key)
+  {
+      $tmp = $this-&gt;head;
+      $dest = NULL;
+      
+      while($tmp-&gt;next !== NULL )
+      {
+          if($tmp-&gt;key === $key)
+          {
+              $dest = $tmp;
+              break;
+          }
+          else
+          {
+              $tmp = $tmp-&gt;next;
+          }    
+      }
+      
+    return $dest;
+  }
+    
+    /**
+      * @ desc: 生成一个链表元素
+      * @param: int $key        //链表元素关键字
+      * @param: string $value   //链表元素数据
+      **/
+    function _getElement($key, $value)
+    {
+        $tmpnode = new List_Element($key, $value);
+        return $tmpnode;
+    }
+    
+    /**
+      * @desc: 判断链表是否为空
+      */
+    function _isEmpty()
+    {
+        return $this-&gt;head === NULL;
+    }
+    
+}

@@ -1,0 +1,118 @@
+#include<iostream>
+using namespace std;
+class Tree {
+public:
+	Tree(int n,int *pRoot) { 
+		pTree = new int[n];
+		size = n;
+		for (int i = 0; i < size; i++) {
+			pTree[i] = 0;
+		}
+		pTree[0] =*pRoot;
+	}
+	~Tree() {
+		delete[]pTree;
+		cout << "析构函数调用成功";
+	}
+	int *SearchNode(int nodeIndex) {
+		if (nodeIndex < 0 || nodeIndex >= size) {
+			return NULL;
+		}
+		if (pTree[nodeIndex] == 0) {
+			return NULL;
+		}
+		return &pTree[nodeIndex];
+	}
+
+
+	bool AddNode(int nodeIndex,int direction,int *pNode) {
+		if (nodeIndex < 0 || nodeIndex >= size)
+		{
+			return false;
+		}
+		if (pTree[nodeIndex] == 0)
+		{
+			return false;
+		}
+
+
+		if (direction == 0)
+		{
+			if (nodeIndex * 2 + 1 >= size) 
+			{
+				return false;
+			}
+			if (pTree[nodeIndex * 2 + 1] != 0)
+			{
+				return false;
+			}
+			pTree[nodeIndex * 2 + 1] = *pNode;
+
+		}
+		if (direction == 1)
+		{
+			if (nodeIndex * 2 + 2 >= size)
+			{
+				return false;
+			}
+			if (pTree[nodeIndex * 2 + 2] != 0)
+			{
+				return false;
+			}
+			pTree[nodeIndex * 2 + 2] = *pNode;
+
+		}
+		return true;
+	
+	
+}
+	bool DeleteNode(int nodeIndex, int *pNode) {
+		if (nodeIndex < 0 || nodeIndex >= size)
+		{
+			return false;
+		}
+		if (pTree[nodeIndex] == 0)
+		{
+			return false;
+		}
+		*pNode = pTree[nodeIndex] = 0;
+		return true;
+	}
+
+	void Traverse() {
+		for (int i = 0; i < size; i++)
+		{
+			cout << pTree[i] << " ";
+		}
+	}
+private:
+	int *pTree;
+	int size;
+};
+
+int main()
+{
+	int root = 3;
+	Tree *pTree1 = new Tree(10,&root);
+	int node1 = 5;
+	int node2 = 8;
+	int node3 = 2;
+	int node4 = 6;
+	int node5 = 9;
+	int node6 = 7;
+	pTree1->AddNode(0, 0, &node1);
+	pTree1->AddNode(0, 1, &node2);
+	pTree1->AddNode(1, 0, &node3);
+	pTree1->AddNode(1, 1, &node4);
+	pTree1->AddNode(2, 0, &node5);
+	pTree1->AddNode(2, 1, &node6);
+	pTree1->Traverse();
+	system("pause");
+	delete pTree1;
+	
+
+
+
+
+
+}
