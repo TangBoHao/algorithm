@@ -1,0 +1,33 @@
+package hello;
+
+
+public class hello{
+	//打印出这些数组的全排列
+	//k:当前的交换位置（关注点），与其后面的元素交换
+	public static void f(char[] data,int k) {
+		if(k==data.length-1) {
+			for(int i=0;i<data.length;i++)
+			{
+				System.out.print(data[i]+" ");
+				
+			}
+			System.out.println();
+		}
+		
+		//当循环结束的时候 程序结束 因此不需要额外定义递归的出口
+		for(int i=k;i<data.length;i++) {
+			{char t=data[k];data[k]=data[i];data[i]=t;}//试探
+			f(data,k+1);
+			{char t=data[k];data[k]=data[i];data[i]=t;} //回溯 回复到之前的状态
+		}
+		
+		
+	}
+	
+	
+	public  static void main(String[] args) {
+		char[] data="ABCDE".toCharArray();
+		f(data,0);
+	}
+	
+}

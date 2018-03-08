@@ -1,0 +1,19 @@
+package hello;
+
+
+public class hello{
+	//从n个球中取出m个球，有多少种取法
+	public static int f(int n,int m) {
+		if(n<m) return 0;//没有这种取法
+		if(n==m) return 1;//当m=n的时候 只有一种取法
+		if(m==0) return 1;//当吗为0的时候 只有一种取法  完善递归程序的出口 
+		return f(n-1,m-1)+f(n-1,m);//取其中的一个球和不取这个球的情况    假设n个球里面有一个特殊求，取法划分，包不包含这个特殊球
+	}
+	
+	
+	public  static void main(String[] args) {
+		int k=f(10,3);
+		System.out.println(k);
+	}
+	
+}
