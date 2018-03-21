@@ -1,0 +1,38 @@
+package hello;
+//最小公倍数等于两数乘积除以最大公约数
+public class hello{
+	//辗转相除法
+	// a=ka*i+a1 b=kb*i+b1   (a+b)%i=(ka+kb)*i%i+(a1+b1)%i
+	//推广出 如果a=ka*i b=kb*i   则(b-a)=(kb-ka)*i
+	//所以求a和b的最大公约数 可以转化为求b-a和a的最大公约数 ->求b-a-a和a的最大公约数 ->求b%a和a的最大公约数
+	
+	
+	//递归实现辗转相除法
+	public static int gcd(int a,int b)
+	{
+		if(a==0) return b;
+		return gcd(b%a,a);
+	}
+	
+	public static void main(String[] args)
+	{
+		
+//		int a=15;
+//		int b=40;
+//		while(true)
+//		{
+//			//假设a比较小
+//			if(a==0) {
+//				System.out.println(b);
+//				break;
+//			}
+//			int t=a;
+//			a=b%a;
+//			b=t;
+//		}
+		int a=15;
+		int b=40;
+		System.out.println(gcd(a,b));
+		
+	}
+}

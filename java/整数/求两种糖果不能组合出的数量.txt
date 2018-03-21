@@ -1,0 +1,55 @@
+package algorithm;
+
+
+import java.util.Scanner;                              
+
+//给出每一袋糖的数量   给出最大不能买到的糖的数量
+//解法：搜索连续能买到的最小包装  连续数为最小包装数
+
+public class Main{
+	
+	static final int N=1000*100;
+	
+	public static int search(int[] da,int a) {
+		int n=0;
+		for(int i=0;i<da.length;i++)
+		{
+			if(da[i]==1) {
+				n++;
+				if(n>=a)
+					return i-a;
+			}else {
+				n=0;
+			}
+		}
+		return -1;
+	}
+	
+	
+	public static int[] f(int a,int b) {
+		int[] da=new int[N];
+		for(int i=0;i<N/a;i++)
+		{
+			for(int j=0;j<=(N-i*a)/b;j++)
+			{
+				if(i*a+b*j<N)
+					da[i*a+b*j]=1;
+			}
+		}
+		return da;
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		Scanner in=new Scanner(System.in);
+		int a=in.nextInt();
+		int b=in.nextInt();
+		int[] data=f(a,b);
+		int re=search(data,a);
+		System.out.println(re);
+		
+	}
+		
+		
+}

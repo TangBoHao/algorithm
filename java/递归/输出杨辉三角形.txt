@@ -1,0 +1,26 @@
+package hello;
+
+
+//求杨辉三角形的m层的第n个元素
+
+public class hello{
+	public static int f(int m,int n) {
+		if(m==0)
+			return 1;
+		if(n==0||m==n) 
+			return 1;
+		return f(m-1,n)+f(m-1,n-1);
+	}
+	
+	public static void  main(String[] args)
+	{
+		int level=5;
+		for(int i=0;i<=level;i++)
+		{
+			System.out.print(f(level,i)+" ");
+			
+		}
+		System.out.println();
+		
+	}
+}
