@@ -1,0 +1,44 @@
+package algorithm;
+
+import java.util.Scanner;
+
+public class Main{
+	static int[][] D=new int[101][101];
+	static int n;
+	
+	public static int max(int x,int y) {
+		if(x>=y)
+			return x;
+		else 
+			return y;
+	}
+	
+	public static int maxSum(int i,int j)
+	{
+		if(i==n)
+			return D[i][j];
+		int x=maxSum(i+1,j);
+		int y=maxSum(i+1,j+1);
+		return max(x,y)+D[i][j];
+		
+	}
+	public static void main(String[] args)
+	{
+		int i,j;
+		Scanner in=new Scanner(System.in);
+		n=in.nextInt();
+		for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=i;j++)
+			{
+				D[i][j]=in.nextInt();
+			}
+		}
+		
+		System.out.print(maxSum(1,1));
+	}
+	
+	
+	
+	
+}
